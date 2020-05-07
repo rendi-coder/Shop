@@ -1,0 +1,62 @@
+.header{
+    position: fixed;
+    top:0;left:0;
+    width: 100%;
+    padding: 20px 0;
+    border-bottom: 2px solid #00e9ba;
+    background-color: gainsboro;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 99;
+}
+
+.container{
+    max-width: 1170px;
+    margin: auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.headerNav {
+    display: flex;
+}
+
+.headerNav a{
+    text-decoration: none;
+    font-size: 20px;
+    color:black;
+    font-weight: 700;
+}
+
+.headerNav a:hover{
+    color:#00e2b4;
+}
+
+.headerNav a+div{
+  margin-left: 30px;
+}
+
+
+.logo img{
+    max-width: 200px;
+    max-height: 70px;
+}
+
+.login{
+    position: absolute;
+    top: 0;
+    right:0;
+    margin-right: 100px;
+    margin-top:10px;
+    font-size: 20px;
+    color:black;
+    border:1px solid black;
+    border-radius: 10px;
+    padding: 1px;
+}
+
+.login span{
+    font-weight: 700;
+    font-size: 24px;
+}
