@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import classes from "../addProduct/AddTovars.module.css"
 import { connect } from 'react-redux';
 import {setLoading,uploadImage,validator,updateCard,setUrlImg} from '../../redux/tovarsReducer'
 import { Redirect} from 'react-router-dom';
 import Loader from "../../UI/Loader/Loader"
-import Button from '../../UI/Button/Button'
+import {FormAddTovars} from '../addProduct/FormAddTovars'
+
 class UpdateTovars extends Component{
-
-
 
     state={
         selectedFile:this.props.activeCard.tovar.url,
@@ -95,49 +93,25 @@ class UpdateTovars extends Component{
         if(this.props.loading==="success"){return <Redirect to='/' />}
         if(this.props.loading){return <Loader />}
     return(
-    <div className={classes.addTovar}>
-        <h1>Редактирование товара</h1>
-        <div className={classes.container}>
-            <div className={classes.title}>
-                    <span>Введите Заголовок товара</span>
-                    <input type="text" value={this.state.title} onChange={this.changeTitle} placeholder="Заголовок"/>
-                    {!this.props.validate.validateTitle && <div className={classes.validator}>заголовок должен быть от 20 до 60символов</div> }
-            </div>
-            <div className={classes.addPhoto}>
-                    <div>
-                       {(this.props.urlImg&&this.props.urlImg!=="errorSize")&&<img src={this.props.urlImg} alt=""/>}
-                    </div>
-                    <span>Изменить фото товара</span>
-                    <input id="upload" type="file" onChange={this.fileSelectedHandler} className={classes.hide}/>
-                    <label htmlFor="upload">{this.props.validate.validateImg.length?this.props.validate.validateImg:"Изменить фото"}</label>
-                    {!this.props.validate.validateImg && <div className={classes.validator}>Фото не выбранно</div> }
-            </div>
-            <div className={classes.price}>
-                <span>Укажите цену товара</span>
-                <input value={this.state.price} onChange={this.changePrice} type="number" />
-                {!this.props.validate.priceValid && <div className={classes.validator}>Укажите положительную ценну товара до 99999999.99</div> }
-            </div>
-            <div className={classes.aboutTovars}>
-                <div>Напишите Описание товара</div>
-                <textarea value={this.state.description} onChange={this.changeDescription} type="text" />
-                {!this.props.validate.descriptionValid && <div className={classes.validator}>Слишком большое описание</div> }
-            </div>
-            <div className={classes.discontPrice}>
-                <span>Укажите процент скидки</span>
-                <input value={this.state.discontPrice} onChange={this.changeDiscontPrice} type="number" />
-                {!this.props.validate.discontPriceValid && <div className={classes.validator}>Укажите число от 10 до 90</div> }
-            </div>
-            <div className={classes.discontDay}>
-                <span>Укажите дату окончания скидки</span>
-                <input value={this.state.discontData} onChange={this.changeDiscontData} type="date" />
-                {!this.props.validate.discontDataValid && <div className={classes.validator}>Укажите дату больше текущей</div> }
-            </div>
-            <div className={classes.upload}>
-                <Button disabled={this.props.isFormValid} onClick={this.updateCard} type="success">Редактировать товар</Button>
-                {this.props.urlImg==="errorSize"&&<div className={classes.errorSize}>Товар не добавлен минимальные ширина/высота фото 200px,максимальные 4000px</div>}
-            </div>
-        </div>
-    </div>)
+        <FormAddTovars
+        title={this.state.title}
+         changeTitle={this.changeTitle}
+         urlImg={this.props.urlImg}
+         fileSelectedHandler={this.fileSelectedHandler}
+         price={this.state.price}
+         changePrice={this.changePrice}
+         description={this.state.description}
+         changeDescription={this.changeDescription}
+         discontPrice={this.state.discontPrice}
+         changeDiscontPrice={this.changeDiscontPrice}
+         discontData={this.state.discontData}
+         changeDiscontData={this.changeDiscontData}
+         uploadFile={this.updateCard}
+        update={true}
+        validator={this.props.validate}
+        isFormValid={this.props.isFormValid}
+        />
+        )
     }
 }
 

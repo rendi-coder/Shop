@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import Button from '../../UI/Button/Button'
 
 
-const FormAddTovars=(props)=>{
+export const FormAddTovars=(props)=>{
    return(<div className={classes.addTovar}>
-    <h1>Добавление нового товара</h1>
+    {props.update?<h1>Редактирование товара</h1>:<h1>Добавление нового товара</h1>}
     <div className={classes.container}>
         <div className={classes.title}>
                 <span>Введите Заголовок товара</span>
@@ -14,12 +14,14 @@ const FormAddTovars=(props)=>{
                  {!props.validator.validateTitle && <div className={classes.validator}>заголовок должен быть от 20 до 60символов</div> }
         </div>
         <div className={classes.addPhoto}>
+            <div>
+        {(props.urlImg&&props.urlImg!=="errorSize")?<img src={props.urlImg} width="400" height="300" alt=""/>:null}
+            </div>
                 <span >Добавьте фото товара</span>
-                {(props.urlImg&&props.urlImg!=="errorSize")?<img id="i" src={props.urlImg} alt=""/>:null}
-                <label htmlFor="upload">{props.validator.validateImg?props.validator.validateImg:"добавить фото"}</label>
+                <label htmlFor="upload">{props.validator.validateImg.length?props.validator.validateImg:"добавить фото"}</label>
                 <input  id="upload" type="file" onChange={props.fileSelectedHandler} className={classes.hide}/>
                 {!props.validator.validateImg && <div className={classes.validator}>Фото не выбранно</div> }
-        </div>
+            </div>
         <div className={classes.price}>
             <span>Укажите цену товара</span>
             <input value={props.price} onChange={props.changePrice} type="number" />
@@ -41,7 +43,9 @@ const FormAddTovars=(props)=>{
             {!props.validator.discontDataValid && <div className={classes.validator}>Укажите дату больше текущей</div> }
         </div>
         <div className={classes.upload}>
-            <Button disabled={props.isFormValid} onClick={props.uploadFile} type="success">Добавить товар</Button>
+            <Button disabled={props.isFormValid} onClick={props.uploadFile} type="success">
+               {props.update?"Редактировать товар":"Добавить товар"}
+            </Button>
             {props.urlImg==="errorSize"&&<div className={classes.errorSize}>Товар не добавлен минимальные ширина/высота фото = 200px,максимальные 4000px</div>}
         </div>
     </div>
