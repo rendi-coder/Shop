@@ -32,7 +32,7 @@ class ListTovars extends Component{
                      <AddNewTovars />
                      :null}
                     {/* mamba11@gmail.com | 221197 */}
-                     {this.state.tovars && this.state.tovars.map((item,index)=><Tovars tovar={item.tovar} key={index} id={index}/>)}
+                     {this.state.tovars && this.state.tovars.map((item,index)=><Tovars login={this.props.login} tovar={item.tovar} key={index} id={index}/>)}
                 </div>
             </div>
         </div>
@@ -58,7 +58,8 @@ export const AddNewTovars=(props)=>{
 
 const mapStateToProps=(state)=>{
     return{
-        allTovars:state.tovars.tovars
+        allTovars:state.tovars.tovars,
+        login:state.auth.login
     }
 }
 

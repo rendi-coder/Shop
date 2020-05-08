@@ -53,8 +53,11 @@ const Tovars=(props)=>{
 
 const DataComponent=({discontDate})=>{
     let date=Math.ceil(((((new Date(discontDate)-Date.now())/1000)/60)/60)/24);
-    let days=date>4&&"дней"
-    if(date<5&&date>1){days="дня";}if(date<=1)days="день"
+    let days="";
+    if(date===1||date%10===1){days="день"}else{days="дней"}
+    if((date%10<5)&&(date%10>1)){days="дня";}
+    if((date>10 && date<15)||(date>100 && date<115)||(date>100 && date<115)){days="дней"}
+
     return (<div className={classes.discount}>
                         <span>Скидка</span>
                         <span>Осталось: {date}
@@ -74,10 +77,4 @@ const PriceComponent=({discontDate,price,discont})=>{
      </div> )
 }
 
-const mapStateToProps=(state)=>{
-    return{
-        login:state.auth.login
-    }
-}
-
-export default connect(mapStateToProps,{deleteTovar,setActiveCard})(Tovars)
+export default connect(null,{deleteTovar,setActiveCard})(Tovars)
