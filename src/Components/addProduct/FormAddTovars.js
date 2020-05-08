@@ -1,6 +1,5 @@
 import React from 'react'
 import classes from "./AddTovars.module.css"
-import { connect } from 'react-redux'
 import Button from '../../UI/Button/Button'
 
 
@@ -52,12 +51,4 @@ export const FormAddTovars=(props)=>{
 </div>)
 }
 
-const mapStateToProps=(state)=>{
-    return{
-        validator:state.tovars.validate,
-        urlImg:state.tovars.url,
-        isFormValid:Object.keys(state.tovars.validate).map((key)=>state.tovars.validate[key]).some(el=>el===false)
-    }
-}
-
-export default connect(mapStateToProps,null) (FormAddTovars)
+export default FormAddTovars

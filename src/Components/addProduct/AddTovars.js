@@ -119,6 +119,8 @@ class AddTovars extends Component{
          discontData={this.state.discontData}
          changeDiscontData={this.changeDiscontData}
          uploadFile={this.uploadFile}
+         validator={this.props.validate}
+         isFormValid={this.props.isFormValid}
          />
     )
 }
@@ -128,7 +130,8 @@ const mapStateToProps=(state)=>{
     return{
         validate:state.tovars.validate,
         loading:state.tovars.loading,
-        urlImg:state.tovars.url
+        urlImg:state.tovars.url,
+        isFormValid:Object.keys(state.tovars.validate).map((key)=>state.tovars.validate[key]).some(el=>el===false)
     }
 }
 
