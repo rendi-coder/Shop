@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import classes from './Tovars.module.css'
-import {Redirect, NavLink} from 'react-router-dom'
-import {getAllTovars} from '../../redux/tovarsReducer'
+import {NavLink} from 'react-router-dom'
+import {getAllTovars,setUrlImg} from '../../redux/tovarsReducer'
 import {connect} from 'react-redux';
 import Tovars from './Tovars'
+import Main from "../../UI/Loader/main"
 
 class ListTovars extends Component{
 
     componentDidMount(){
+        this.props.setUrlImg("");
         this.props.getAllTovars();
     }
     
@@ -22,7 +24,7 @@ class ListTovars extends Component{
     }
 
     render(){
-        if(!this.props.isAuth)  return <Redirect to="/auth" />
+        if(!this.props.isAuth)  return <Main />
     return(
         <div className={classes.Tovars}>
             <div className={classes.container}>
@@ -63,4 +65,4 @@ const mapStateToProps=(state)=>{
     }
 }
 
-export default connect(mapStateToProps,{getAllTovars}) (ListTovars)
+export default connect(mapStateToProps,{getAllTovars,setUrlImg}) (ListTovars)

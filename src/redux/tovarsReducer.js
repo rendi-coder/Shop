@@ -156,20 +156,6 @@ export const uploadTovars=(image,title,price,description,discont,discontDate)=>(
 
 export const setUrlImg=(url)=>({type:SET_URL,url})
 
-export const uploadImage=(image)=>(dispatch)=>{
-    const uploadTask=storage.ref(`images/${image.name}`).put(image);
-    uploadTask.on(`state_changed`, ()=>{
-
-    }, error=>{
-        //console.log(error)
-    }, ()=>{
-        storage.ref(`images`).child(image.name).getDownloadURL().then(url=>{
-            dispatch(setUrlImg(url)); 
-            dispatch(setLoading(false));
-            });
-        })  
-}
-
 export const setLoading=(status)=>({type:LOADING,status})
 
  export default tovarsReducer

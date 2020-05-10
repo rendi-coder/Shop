@@ -20,6 +20,7 @@ export const FormAddTovars=(props)=>{
                 <label htmlFor="upload">{props.validator.validateImg.length?props.validator.validateImg:"добавить фото"}</label>
                 <input  id="upload" type="file" onChange={props.fileSelectedHandler} className={classes.hide}/>
                 {!props.validator.validateImg && <div className={classes.validator}>Фото не выбранно</div> }
+                {props.urlImg==="errorSize"&&<div className={classes.errorSize}>Фото не добавлено минимальные ширина/высота фото = 200px,максимальные 4000px</div>}
             </div>
         <div className={classes.price}>
             <span>Укажите цену товара</span>
@@ -45,7 +46,6 @@ export const FormAddTovars=(props)=>{
             <Button disabled={props.isFormValid} onClick={props.uploadFile} type="success">
                {props.update?"Редактировать товар":"Добавить товар"}
             </Button>
-            {props.urlImg==="errorSize"&&<div className={classes.errorSize}>Товар не добавлен минимальные ширина/высота фото = 200px,максимальные 4000px</div>}
         </div>
     </div>
 </div>)

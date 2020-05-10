@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {setLoading,uploadImage,validator,updateCard,setUrlImg} from '../../redux/tovarsReducer'
+import {setLoading,validator,updateCard,setUrlImg} from '../../redux/tovarsReducer'
 import { Redirect} from 'react-router-dom';
 import Loader from "../../UI/Loader/Loader"
 import {FormAddTovars} from '../addProduct/FormAddTovars'
@@ -59,8 +59,17 @@ class UpdateTovars extends Component{
 
     fileSelectedHandler=e=>{
         if(e.target.files[0]&&e.target.files[0].type.match('image.*')){
-            this.props.uploadImage(e.target.files[0]);
-            this.props.setLoading(true);
+            let reader=new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onload=async (e)=>{
+                await this.props.setUrlImg(e.target.result);
+                let img=new Image();img.src=this.props.urlImg;
+               if(img.width>4000||img.height>4000||img.width<200||img.height<200){
+                this.props.setUrlImg("errorSize");
+               this.setState({selectedFile:null});
+                return}
+           }
+            
         this.setState({
             selectedFile:e.target.files[0]
         })
@@ -73,14 +82,6 @@ class UpdateTovars extends Component{
 
 
     updateCard=()=>{
-        debugger;
-        let img=new Image();img.src=this.props.urlImg;
-        if(img.width>4000||img.height>4000||img.width<200||img.height<200){
-            this.props.setUrlImg("errorSize");
-            this.setState({selectedFile:null});
-            console.log(img.width);
-            alert("Товар не добавлен");
-            return}
         const validate=this.props.validate;
         if(validate.validateImg && validate.validateTitle && validate.priceValid && validate.descriptionValid && validate.discontPriceValid && validate.discontDataValid){
         const image = this.state.selectedFile
@@ -127,4 +128,4 @@ const mapStateToProps=(state)=>{
     }
 }
 
-export default connect( mapStateToProps,{updateCard,validator,setLoading,uploadImage,setUrlImg}) (UpdateTovars)
+export default connect( mapStateToProps,{updateCard,validator,setLoading,setUrlImg}) (UpdateTovars)
