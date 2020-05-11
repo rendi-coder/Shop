@@ -78,7 +78,8 @@ class AddTovars extends Component{
         }
         else{this.setState({
             selectedFile:null
-        })}
+        })
+         this.props.setUrlImg("");}
     }
 
 
@@ -103,7 +104,6 @@ class AddTovars extends Component{
 
 
     render(){
-        //if(this.props.loading==="success"){return <Redirect to='/' />}//могу после добавления 1 товара на главную
         if(this.props.loading){return <Loader />}
     return(
         <FormAddTovars

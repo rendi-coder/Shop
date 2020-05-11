@@ -3,9 +3,10 @@ import authReducer from './authReducer'
 import tovarsReducer from './tovarsReducer'
 import  thunkMiddleware from "redux-thunk"
 
+
 let reducers=combineReducers({
     auth:authReducer,
-    tovars:tovarsReducer
+    tovars:tovarsReducer,
 }
 );
 

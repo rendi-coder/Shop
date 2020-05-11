@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import classes from './Tovars.module.css'
 import {NavLink} from 'react-router-dom'
-import {getAllTovars,setUrlImg} from '../../redux/tovarsReducer'
+import {getAllTovars,setUrlImg,setLoading} from '../../redux/tovarsReducer'
 import {connect} from 'react-redux';
 import Tovars from './Tovars'
 import Main from "../../UI/Loader/main"
+import Loader from "../../UI/Loader/Loader"
 
 class ListTovars extends Component{
 
     componentDidMount(){
+        this.props.setLoading(true);
         this.props.setUrlImg("");
         this.props.getAllTovars();
     }
@@ -25,6 +27,7 @@ class ListTovars extends Component{
 
     render(){
         if(!this.props.isAuth)  return <Main />
+        if(this.props.loading){return <Loader />}
     return(
         <div className={classes.Tovars}>
             <div className={classes.container}>
@@ -34,7 +37,7 @@ class ListTovars extends Component{
                      <AddNewTovars />
                      :null}
                     {/* mamba11@gmail.com | 221197 */}
-                     {this.state.tovars && this.state.tovars.map((item,index)=><Tovars login={this.props.login} tovar={item.tovar} key={index} id={index}/>)}
+                     {this.state.tovars && this.state.tovars.map((item,index)=><Tovars login={this.props.login} tovar={item.tovar} key={index} id={index} />)}
                 </div>
             </div>
         </div>
@@ -61,8 +64,9 @@ export const AddNewTovars=(props)=>{
 const mapStateToProps=(state)=>{
     return{
         allTovars:state.tovars.tovars,
-        login:state.auth.login
+        login:state.auth.login,
+        loading:state.tovars.loading
     }
 }
 
-export default connect(mapStateToProps,{getAllTovars,setUrlImg}) (ListTovars)
+export default connect(mapStateToProps,{getAllTovars,setUrlImg,setLoading}) (ListTovars)

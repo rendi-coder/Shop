@@ -15,7 +15,8 @@ const Header=(props)=>{
                  {props.loading!==true?<NavLink to="/">Главная</NavLink>:null}
                     <div>
                     {props.isAuth?
-                    <div><span className={classes.login}><span>Login:</span>{props.login}</span>
+                    <div>  {props.login!=="mamba11@gmail.com"&&<NavLink style={{marginRight:30}} to="/Basket">Корзина</NavLink>}
+                        <span className={classes.login}><span>Login:</span>{props.login}</span>
                     <NavLink to="/logout">Выйти</NavLink></div>
                     :<NavLink to="/auth">Авторизация</NavLink>}
                     </div>
@@ -28,7 +29,8 @@ const Header=(props)=>{
 
 const mapStateToProps=(state)=>{
     return{
-        loading:state.tovars.loading
+        loading:state.tovars.loading,
+        login:state.auth.login
     }
 }
 

@@ -9,6 +9,7 @@ import Logout from './Components/Auth/Logout';
 import {autoLogin} from "./redux/authReducer";
 import AddTovars from './Components/addProduct/AddTovars';
 import UpdateTovars from './Components/UpdateProduct/UpdateTovars'
+import Basket from './Components/basket/Basket'
 
 function App(props) {
 
@@ -29,6 +30,7 @@ function App(props) {
       <Switch>
     <Route path="/" exact  render={()=><Tovars  isAuth={props.isAuth} login={props.login}/>} />
     <Route path="/logout" render={()=><Logout />} />
+    <Route path="/Basket" exact render={()=><Basket />} />
     <Route path="/addTovars" render={()=><AddTovars />} />
     <Route path="/udateTovars"  render={()=><UpdateTovars />} />
     <Redirect to='/'/>

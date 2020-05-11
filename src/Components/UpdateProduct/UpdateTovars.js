@@ -6,7 +6,6 @@ import Loader from "../../UI/Loader/Loader"
 import {FormAddTovars} from '../addProduct/FormAddTovars'
 
 class UpdateTovars extends Component{
-
     state={
         selectedFile:this.props.activeCard.tovar.url,
         title:this.props.activeCard.tovar.title,
@@ -75,8 +74,9 @@ class UpdateTovars extends Component{
         })
         }else{
             this.setState({
-                selectedFile:this.props.activeCard.tovar.url
+                selectedFile:null
             })
+            this.props.setUrlImg("");
         }
     }
 
@@ -84,8 +84,7 @@ class UpdateTovars extends Component{
     updateCard=()=>{
         const validate=this.props.validate;
         if(validate.validateImg && validate.validateTitle && validate.priceValid && validate.descriptionValid && validate.discontPriceValid && validate.discontDataValid){
-        const image = this.state.selectedFile
-        this.props.updateCard(image,this.state.title,this.state.price,this.state.description,this.state.discontPrice,this.state.discontData,this.props.activeCard.id);
+        this.props.updateCard(this.props.urlImg,this.state.title,this.state.price,this.state.description,this.state.discontPrice,this.state.discontData,this.props.activeCard.id,this.props.activeCard.tovar.article);
         this.props.setLoading(true);
         }
     }

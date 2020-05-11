@@ -88,7 +88,7 @@ export const auth=(email,password,isLogin)=>{
         const response= await Axios.post(url,authData);
         const data=response.data;
         const expirationDate=new Date(new Date().getTime()+ data.expiresIn*1000);
-
+        
 
         localStorage.setItem('token',data.idToken);
         localStorage.setItem('login',data.email)

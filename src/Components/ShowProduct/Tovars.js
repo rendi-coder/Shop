@@ -1,22 +1,28 @@
 import React from 'react'
 import classes from './Tovars.module.css'
 import {connect} from 'react-redux'
-import {deleteTovar,setActiveCard} from '../../redux/tovarsReducer'
+import {deleteTovar,setActiveCard,addItemToBasket} from '../../redux/tovarsReducer'
 import { NavLink } from 'react-router-dom'
 import Button from '../../UI/Button/Button'
 
 
+
 const Tovars=(props)=>{
 
+    const addInBasket=()=>{
+        props.addItemToBasket(props.tovar.article);
+    }
+
     const deleteCard=(id)=>{
-        props.deleteTovar(id);
+        props.deleteTovar(id,props.tovar.article);
     }
 
     const activeCardHandler=(id)=>{
         props.setActiveCard({id,tovar:props.tovar})
     }
-
-    return (<div className={classes.column}>
+  
+    return (
+            <div className={classes.column}>
                 <div className={classes.cardItem}>
 
                     {new Date(props.tovar.discontDate)-new Date()>0&&
@@ -44,7 +50,7 @@ const Tovars=(props)=>{
                         </NavLink>
                         
                         <Button type="error" onClick={()=>deleteCard(props.id)}>Delete</Button>
-                    </div>:null
+                    </div>:<Button onClick={()=>addInBasket()} type="success">Добавить в корзину</Button>
                     }
                 </div>
             </div>)
@@ -77,4 +83,4 @@ const PriceComponent=({discontDate,price,discont})=>{
      </div> )
 }
 
-export default connect(null,{deleteTovar,setActiveCard})(Tovars)
+export default connect(null,{deleteTovar,setActiveCard,addItemToBasket})(Tovars)
