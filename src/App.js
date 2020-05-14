@@ -1,26 +1,29 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, Suspense } from 'react';
 import './App.css';
 import  Tovars from './Components/ShowProduct/ListTovars'
 import Header from './Components/Header/Header';
-import Auth from './Components/Auth/Auth'
 import {Route, BrowserRouter, Switch, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import Logout from './Components/Auth/Logout';
 import {autoLogin} from "./redux/authReducer";
-import AddTovars from './Components/addProduct/AddTovars';
-import UpdateTovars from './Components/UpdateProduct/UpdateTovars'
-import Basket from './Components/basket/Basket'
+import Preloader from "./UI/Loader/Loader"
+const Auth =React.lazy(()=>import(`./Components/Auth/Auth`));
+const AddTovars=React.lazy(()=>import(`./Components/addProduct/AddTovars`));
+const UpdateTovars=React.lazy(()=>import(`./Components/UpdateProduct/UpdateTovars`));
+const Basket=React.lazy(()=>import(`./Components/basket/Basket`));
 
 function App(props) {
 
   useEffect(()=>{
     props.autoLogin();
-  })
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   let routes=(
     <Switch>
     <Route path="/" exact render={()=><Tovars isAuth={props.isAuth}/>} />
-    <Route path="/auth" exact render={()=><Auth />} />
+    <Route path="/auth" exact render={()=>{
+    return<Suspense fallback={<Preloader />}> <Auth /></Suspense>} } />
     <Redirect to='/'/>
     </Switch>
   )
@@ -30,9 +33,12 @@ function App(props) {
       <Switch>
     <Route path="/" exact  render={()=><Tovars  isAuth={props.isAuth} login={props.login}/>} />
     <Route path="/logout" render={()=><Logout />} />
-    <Route path="/Basket" exact render={()=><Basket />} />
-    <Route path="/addTovars" render={()=><AddTovars />} />
-    <Route path="/udateTovars"  render={()=><UpdateTovars />} />
+    <Route path="/Basket" exact render={()=>{
+    return<Suspense fallback={<Preloader />}> <Basket /></Suspense>} } />
+    <Route path="/addTovars" exact render={()=>{
+    return<Suspense fallback={<Preloader />}> <AddTovars /></Suspense>} } />
+    <Route path="/udateTovars" exact render={()=>{
+    return<Suspense fallback={<Preloader />}> <UpdateTovars /></Suspense>} } />
     <Redirect to='/'/>
       </Switch>
     )

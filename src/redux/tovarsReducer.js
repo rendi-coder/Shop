@@ -5,10 +5,11 @@ import Axios from 'axios'
 const SET_TOVARS="SET_TOVARS"
 const SET_ACTIVE_CARD="SET_ACTIVE_CARD"
 const SET_VALIDATOR="SET_VALIDATOR"
-const LOADING="LOADING";
+const LOADING="LOADING"
 const SET_URL="SET_URL"
 const SHOW_BASKET="SHOW_BASKET"
-const SET_BASKET_SUM="SET_BASKET_SUM";
+const SET_BASKET_SUM="SET_BASKET_SUM"
+
 let initialState={
     tovars:null,
     activeCard:null,
@@ -94,15 +95,15 @@ let initialState={
  
  }
 
+const setTovars=(tovars)=>({type:SET_TOVARS,tovars}) 
+
 const setActiveCardSuccess=(activeCard)=>({type:SET_ACTIVE_CARD,activeCard})
+
+const setValidatorAC=(validate)=>({type:SET_VALIDATOR,validate})
 
 export const setActiveCard=(activeCard)=>(dispatch)=>{
     dispatch(setActiveCardSuccess(activeCard));
 }
-
-
-
-const setTovars=(tovars)=>({type:SET_TOVARS,tovars})
 
 export const getAllTovars=()=>(dispatch)=>{
     Axios.get(`https://store-d3926.firebaseio.com/Tovars.json`).then(data=>{
@@ -124,7 +125,6 @@ export const deleteTovar=(idTovar,article)=>(dispatch)=>{
         });
 }
 
-const setValidatorAC=(validate)=>({type:SET_VALIDATOR,validate})
 
 export const validator=(selectedFile,title,price,description,discontPrice,discontData)=>(dispatch)=>{
         const validateImg=selectedFile!==null?(selectedFile.name?selectedFile.name:true):false;
@@ -177,6 +177,23 @@ export const setLoading=(status)=>({type:LOADING,status})
 
 
 ///Basket
+const showBasketSuccess=(basket)=>({type:SHOW_BASKET,basket});
+
+const  deleteItemAllBaskets=(article)=>{
+    Axios.get(`https://store-d3926.firebaseio.com/Basket.json`).then(data=>{
+        let basket=data.data;
+        for (let key in basket) {
+            if(basket[key].find((e)=>e===article)){
+                let delIndex=basket[key].indexOf(article);
+                basket[key].splice(delIndex,1);
+            }
+           
+          }
+        
+       Axios.put(`https://store-d3926.firebaseio.com/Basket.json`,basket);
+       
+    })
+}
 
 export const addItemToBasket=(article)=>()=>{
     const login = window.store.getState().auth.login.replace(/\./gi, ' ');
@@ -199,24 +216,6 @@ export const addItemToBasket=(article)=>()=>{
     });
     
 }
-
-const  deleteItemAllBaskets=(article)=>{
-    Axios.get(`https://store-d3926.firebaseio.com/Basket.json`).then(data=>{
-        let basket=data.data;
-        for (let key in basket) {
-            if(basket[key].find((e)=>e===article)){
-                let delIndex=basket[key].indexOf(article);
-                basket[key].splice(delIndex,1);
-            }
-           
-          }
-        
-       Axios.put(`https://store-d3926.firebaseio.com/Basket.json`,basket);
-       
-    })
-}
-
-const showBasketSuccess=(basket)=>({type:SHOW_BASKET,basket});
 
 export const showBasket=()=>(dispatch)=>{
     const login = window.store.getState().auth.login.replace(/\./gi, ' ');
